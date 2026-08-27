@@ -1,0 +1,39 @@
+version: 1
+sources:
+  audit:
+    s3_prefix: auditlogs/
+    format: csv_gzip
+    purpose: administrative_and_configuration_activity
+  dlp:
+    s3_prefix: dlplogs/
+    format: csv_gzip
+    purpose: data_loss_prevention_activity
+  dns:
+    s3_prefix: dnslogs/
+    format: csv_gzip
+    purpose: dns_activity_and_policy_enforcement
+  firewall:
+    s3_prefix: firewalllogs/
+    format: csv_gzip
+    purpose: network_flow_and_firewall_enforcement
+  proxy:
+    s3_prefix: proxylogs/
+    format: csv_gzip
+    purpose: web_proxy_and_content_security_activity
+  rc_event:
+    s3_prefix: rceventlogs/
+    format: csv_gzip
+    purpose: connector_agent_and_control_plane_events
+  ztna:
+    s3_prefix: ztnaflowlogs/
+    format: csv_gzip
+    purpose: private_application_and_zero_trust_flows
+
+# Field mappings are intentionally kept separate from the canonical schema.
+# Add exact source-column mappings only after validating against representative
+# customer samples; source schemas can evolve.
+mapping_policy:
+  preserve_unknown_columns: true
+  preserve_raw_event: true
+  normalize_timestamps_to_utc: true
+  redact_secrets_before_ui: true
