@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Local data and production telemetry
+samples/
+data/
+logs/
+*.csv
+*.csv.gz
+*.jsonl
+*.parquet
+
+# Secrets
+*.pem
+*.key
+credentials
+credentials.json
+.aws/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
