@@ -1,0 +1,39 @@
+services:
+  clickhouse:
+    build: ./docker/clickhouse
+    container_name: sse-clickhouse
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - clickhouse_logs:/var/log/clickhouse-server
+
+  api:
+    build: ./backend
+    container_name: sse-api
+    restart: unless-stopped
+    depends_on:
+      - clickhouse
+    ports:
+      - "8000:8000"
+    environment:
+      CLICKHOUSE_HOST: clickhouse
+      CLICKHOUSE_HTTP_PORT: "8123"
+      CLICKHOUSE_DB: sse
+
+  frontend:
+    build: ./frontend
+    container_name: sse-frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+
+volumes:
+  clickhouse_data:
+  clickhouse_logs:
