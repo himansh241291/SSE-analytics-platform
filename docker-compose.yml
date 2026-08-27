@@ -14,14 +14,25 @@ services:
     build: ./backend
     container_name: sse-api
     restart: unless-stopped
-    depends_on:
-      - clickhouse
     ports:
       - "8000:8000"
     environment:
       CLICKHOUSE_HOST: clickhouse
       CLICKHOUSE_HTTP_PORT: "8123"
       CLICKHOUSE_DB: sse
+    depends_on:
+      - clickhouse
+
+  frontend:
+    build: ./frontend
+    container_name: sse-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    depends_on:
+      - api
 
 volumes:
   clickhouse_data:
