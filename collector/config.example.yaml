@@ -1,0 +1,24 @@
+aws:
+  region: ap-south-1
+  bucket: cisco-managed-ap-south-1
+  # Prefix is the tenant-specific root. Do not commit production tenant IDs here.
+  prefix: "<tenant-id>/"
+
+collector:
+  # Polling is disabled in this first local version; set an interval when the
+  # long-running worker is added.
+  poll_seconds: 600
+  state_file: ./data/checkpoints.json
+  download_dir: ./data/objects
+  max_object_bytes: 524288000
+  source_prefixes:
+    audit: auditlogs/
+    dlp: dlplogs/
+    dns: dnslogs/
+    firewall: firewalllogs/
+    proxy: proxylogs/
+    rc_event: rceventlogs/
+    ztna: ztnaflowlogs/
+
+# Authentication is intentionally delegated to the AWS SDK credential chain:
+# environment variables, ~/.aws credentials/config, IAM role, etc.
